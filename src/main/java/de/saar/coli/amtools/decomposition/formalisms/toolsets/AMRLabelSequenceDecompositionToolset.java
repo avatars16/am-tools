@@ -36,9 +36,12 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
             return null;
 
         while (!WHITESPACE_PATTERN.matcher(currentString).matches()){
-            stringBuilder.append(currentString).append('\n');
-            lineNumber.incValue();
+            // to skip comments
+            if (!currentString.startsWith("//")){
+                stringBuilder.append(currentString).append('\n');
+            }
 
+            lineNumber.incValue();
             currentString = br.readLine();
         }
 
