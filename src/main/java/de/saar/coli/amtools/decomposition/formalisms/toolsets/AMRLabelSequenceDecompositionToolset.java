@@ -17,6 +17,8 @@ import java.util.regex.Pattern;
 public class AMRLabelSequenceDecompositionToolset extends GraphbankDecompositionToolset {
     private final EdgeAttachmentHeuristic edgeAttachmentHeuristic = new AMRBlobUtils();
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s*");
+    private static final String COMMENT_PREFIX_SYMBOL = "#";
+    private static final String DELIMITER = "&";
 
     /**
      * @param fasterModeForTesting If fasterModeForTesting is true, then slow preprocessing measures should be skipped.
@@ -27,7 +29,9 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
         super(fasterModeForTesting);
     }
 
-    private static String readNextLine(BufferedReader br, MutableInteger lineNumber) throws IOException {
+    private static String readNextLine(BufferedReader br, MutableInteger lineNumber)
+            throws IOException {
+
         StringBuilder stringBuilder = new StringBuilder();
         String currentString = br.readLine();
 
@@ -35,9 +39,10 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
         if (currentString == null)
             return null;
 
-        while (!WHITESPACE_PATTERN.matcher(currentString).matches()){
+        while (currentString != null && !WHITESPACE_PATTERN.matcher(currentString).matches()){
             // to skip comments
-            if (!currentString.startsWith("//")){
+            if (!currentString.startsWith(AMRLabelSequenceDecompositionToolset.COMMENT_PREFIX_SYMBOL)){
+                // I append new line char, because AMR graph strings are actually multiline, and we need to preserve it
                 stringBuilder.append(currentString).append('\n');
             }
 
@@ -45,7 +50,12 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
             currentString = br.readLine();
         }
 
-        return stringBuilder.toString();
+        String resultString = stringBuilder.toString();
+
+
+
+        // I strip last new line symbol
+        return resultString.substring(0, resultString.length()-1);
     }
 
     @Override
@@ -57,10 +67,11 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
         List<MRInstance> mrInstances = new ArrayList<>();
         while (line != null) {
             // delimiter token is determined by Python code, that produces the source file.
-            String[] amrInputData = line.split("&");
-            String graphString = amrInputData[0];
-            String alignmentsString = amrInputData[1];
-            String labelsString = amrInputData[2];
+            String[] amrInputData = line.split(DELIMITER);
+            String amrId = amrInputData[0];
+            String graphString = amrInputData[1];
+            String alignmentsString = amrInputData[2];
+            String labelsString = amrInputData[3];
 
             String[] labelsSentence = labelsString.split(" ");
             String[] rawAlignments = alignmentsString.split(" ");
@@ -77,6 +88,7 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
             SGraph sGraph = new IsiAmrInputCodec().read(graphString);
 
             MRInstance mrInstance = new MRInstance(Arrays.asList(labelsSentence), sGraph, alignmentsList);
+            mrInstance.setId(amrId);
             mrInstances.add(mrInstance);
 
             line = readNextLine(br, lineNumber);
