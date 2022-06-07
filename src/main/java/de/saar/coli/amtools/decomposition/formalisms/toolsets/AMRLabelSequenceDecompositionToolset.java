@@ -18,7 +18,7 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
     private final EdgeAttachmentHeuristic edgeAttachmentHeuristic = new AMRBlobUtils();
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s*");
     private static final String COMMENT_PREFIX_SYMBOL = "#";
-    private static final String DELIMITER = "&";
+    private static final String DELIMITER = "&&";
 
     /**
      * @param fasterModeForTesting If fasterModeForTesting is true, then slow preprocessing measures should be skipped.
@@ -85,13 +85,19 @@ public class AMRLabelSequenceDecompositionToolset extends GraphbankDecomposition
             // This makes the first node in the string the root, which is correct for AMR.
             // Admittedly, a bit hacky to edit the string like this, but it's the simplest way.
             graphString = graphString.replaceFirst("/", "<root> /");
-            SGraph sGraph = new IsiAmrInputCodec().read(graphString);
+            try {
+                // System.out.print(amrId + "         ");
+                SGraph sGraph = new IsiAmrInputCodec().read(graphString);
 
-            MRInstance mrInstance = new MRInstance(Arrays.asList(labelsSentence), sGraph, alignmentsList);
-            mrInstance.setId(amrId);
-            mrInstances.add(mrInstance);
+                MRInstance mrInstance = new MRInstance(Arrays.asList(labelsSentence), sGraph, alignmentsList);
+                mrInstance.setId(amrId);
+                mrInstances.add(mrInstance);
 
-            line = readNextLine(br, lineNumber);
+                line = readNextLine(br, lineNumber);
+            }
+            catch (Error e){
+                int t = 0;
+            }
         }
 
         return mrInstances;
