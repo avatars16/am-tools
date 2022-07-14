@@ -23,8 +23,8 @@ public class FixedNodeToWordRules {
     private final static Map<String, String[]> FIXED_SECONDARY_RULES = new HashMap<>();
     
     static {
-        FIXED_RULES.put("-", new String[]{"no", "non", "not", "dont", "don't", "n't", "without", 
-                "ain't", "aint", "doesn't", "doesnt", "didn't", "didnt"});//TODO should we check whether this is actually attached to a :polarity edge?
+        //Deleted most morphemes, such as "cannot", added ne, because it is a morpheme.
+        FIXED_RULES.put("-", new String[]{"no", "non", "not", "n't", "ne"});//TODO should we check whether this is actually attached to a :polarity edge?
         FIXED_RULES.put("+", new String[]{"please"});//TODO should we check whether this is actually attached to a :polite edge?
         FIXED_RULES.put("1",new String[]{"one", "first", "Monday", "January", "Jan"});
         FIXED_RULES.put("2",new String[]{"two", "second", "Tuesday", "February", "Feb"});
@@ -55,7 +55,7 @@ public class FixedNodeToWordRules {
         FIXED_RULES.put("90",new String[]{"ninety"});
         FIXED_RULES.put("100",new String[]{"hundred"});
         FIXED_RULES.put("1000",new String[]{"thousand"});
-        FIXED_RULES.put("possible-01",new String[]{"can", "ca", "could", "couldn't", "might", "may", "can't", "cannot", "able"});//be able to, been able to
+        FIXED_RULES.put("possible-01",new String[]{"can", "ca", "could", "might", "may", "able"});//be able to, been able to
         FIXED_RULES.put("conform-01",new String[]{"within"});
         FIXED_RULES.put("recommend-01",new String[]{"should"});
         FIXED_RULES.put("cause-01",new String[]{"as", "because", "since", "due", "if", "such", "reason", "therefore", "thus", "hence"});
@@ -91,6 +91,7 @@ public class FixedNodeToWordRules {
         FIXED_RULES.put("choose-01", new String[]{"choice"});
         FIXED_RULES.put("have-condition-91", new String[]{"if", "otherwise"});
         
+        //Leave this rules here, because the morpheme parser does not consistently transform these.
         FIXED_SECONDARY_RULES.put("multi-sentence", new String[]{","});
         FIXED_SECONDARY_RULES.put("we",new String[]{"us", "our", "ours", "ourselves"});
         FIXED_SECONDARY_RULES.put("i",new String[]{"me", "my", "mine", "myself"});

@@ -88,7 +88,13 @@ public class AlignmentExtender {
             } else if ((edge.getLabel().equals("ARG1") || edge.getLabel().equals("ARG4")) && to.getLabel().equals("rate-entity-91") && edge.getTarget().equals(from) ) {
                 return AlignmentScorer.SCP_MAYBE_EXTENSION;  // extend to rate entity from other arguments if per/every/each and date or time span not available
             } else { // if (wordsAndProbs != null)// do not check this, we never want the map to be null and want an error if it is.
-                if (edge.getLabel().equals("polarity") && to.getLabel().equals("-") && edge.getTarget().equals(to)) {
+                
+                //Morpheme parser should handle this for us.
+                //negations are handled by the parser. Added them to the fixednodewordrule tho
+                // never consists out of two morphemes, ne ever
+                // ible,able,ably are also morphemes
+
+                /*if (edge.getLabel().equals("polarity") && to.getLabel().equals("-") && edge.getTarget().equals(to)) {
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
                         String word = wAndP.left.word().toLowerCase();
@@ -114,7 +120,7 @@ public class AlignmentExtender {
                         }
                     }
                     return Math.max(0, AlignmentScorer.SCP_EXTENSION*factor);
-                } else if (edge.getLabel().equals("degree") && to.getLabel().equals("more") && edge.getTarget().equals(to)) {//comparative
+                } else*/ if (edge.getLabel().equals("degree") && to.getLabel().equals("more") && edge.getTarget().equals(to)) {//comparative
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
                         String word = wAndP.left.word().toLowerCase();
