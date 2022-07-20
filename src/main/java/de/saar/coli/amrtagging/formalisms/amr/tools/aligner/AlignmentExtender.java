@@ -93,7 +93,7 @@ public class AlignmentExtender {
                 //negations are handled by the parser. Added them to the fixednodewordrule tho
                 // never consists out of two morphemes, ne ever
                 // ible,able,ably are also morphemes
-
+                /*
                 if (edge.getLabel().equals("polarity") && to.getLabel().equals("-") && edge.getTarget().equals(to)) {
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
@@ -110,7 +110,7 @@ public class AlignmentExtender {
                 } /*else if (edge.getLabel().equals("polarity") && to.getLabel().equals("-") && edge.getTarget().equals(to)
                         && from.getLabel().equals("ever")) {
                     return AlignmentScorer.SCP_EXTENSION;  // if "never" was accidentally made with negation on ever, woohoo! Extend that baby.
-                } */ else if (edge.getLabel().equals("ARG1") && to.getLabel().equals("possible-01") && edge.getSource().equals(to)) {
+                } else if (edge.getLabel().equals("ARG1") && to.getLabel().equals("possible-01") && edge.getSource().equals(to)) {
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
                         String word = wAndP.left.word().toLowerCase();
@@ -120,7 +120,8 @@ public class AlignmentExtender {
                         }
                     }
                     return Math.max(0, AlignmentScorer.SCP_EXTENSION*factor);
-                } */else if (edge.getLabel().equals("degree") && to.getLabel().equals("more") && edge.getTarget().equals(to)) {//comparative
+                } else */
+                if (edge.getLabel().equals("degree") && to.getLabel().equals("more") && edge.getTarget().equals(to)) {//comparative
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
                         String word = wAndP.left.word().toLowerCase();
