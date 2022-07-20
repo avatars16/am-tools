@@ -28,7 +28,7 @@ public class FixedNodeToWordRules {
         FIXED_RULES.put("+", new String[]{"please"});//TODO should we check whether this is actually attached to a :polite edge?
         //Added these new rules for the morphemess
         FIXED_RULES.put("person", new String[]{"er","or"});
-        FIXED_RULES.put("thing", new String[]{"al"});
+        FIXED_RULES.put("thing", new String[]{"al", "ing"});
         FIXED_RULES.put("possible-01", new String[]{"ible","able", "ibly", "ably"})
         //continue with stuff already existed
         FIXED_RULES.put("1",new String[]{"one", "first", "Monday", "January", "Jan"});

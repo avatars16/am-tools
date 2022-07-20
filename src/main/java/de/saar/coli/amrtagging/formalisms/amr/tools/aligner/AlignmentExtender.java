@@ -110,7 +110,7 @@ public class AlignmentExtender {
                 } /*else if (edge.getLabel().equals("polarity") && to.getLabel().equals("-") && edge.getTarget().equals(to)
                         && from.getLabel().equals("ever")) {
                     return AlignmentScorer.SCP_EXTENSION;  // if "never" was accidentally made with negation on ever, woohoo! Extend that baby.
-                } else if (edge.getLabel().equals("ARG1") && to.getLabel().equals("possible-01") && edge.getSource().equals(to)) {
+                } */ else if (edge.getLabel().equals("ARG1") && to.getLabel().equals("possible-01") && edge.getSource().equals(to)) {
                     double factor = 0.0;
                     for (Pair<TaggedWord, Double> wAndP : wordsAndProbs) {
                         String word = wAndP.left.word().toLowerCase();
